@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: users-route
+          uri: lb://USERS
+          predicates:
+            - Path=/users/**
+
+        - id: vehicles-route
+          uri: lb://CARLOCATION
+          predicates:
+            - Path=/vehicles/**
+
+        - id: entretien-route
+          uri: lb://ENTRETIEN
+          predicates:
+            - Path=/entretiens/**
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web.reactive.DispatcherHandler: TRACE
+    reactor.netty: DEBUG
+server:
+  port: 8084
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.1.248:9102/eureka/
